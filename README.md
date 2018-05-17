@@ -4,11 +4,11 @@ Node.js Driver for Adafruit INA219
 
 # Install
 
-````bash 
+````bash
 $ npm install ina219
 ````
 
-##Usage
+## Usage
 
 ```javascript
 
@@ -16,17 +16,19 @@ $ npm install ina219
 
   ina219.init();
   ina219.enableLogging(true);
-  
-  ina219.calibrate32V1A(function () {
-    
-    ina219.getBusVoltage_V(function (volts) {
-	  
-      console.log("Voltage: " + volts);
-      ina219.getCurrent_mA(function (current){
-  			
-        console.log("Current (mA): " + current );
-      });	
-    });
+
+  ina219.calibrate32V1A(function () {});
+
+  ina219.getBusVoltage_V(function (volts) {  
+    console.log("Voltage: " + volts);
+  });
+
+  ina219.getCurrent_mA(function (current){
+    console.log("Current (mA): " + current );
+  });
+
+  ina219.getPower_raw(function (power) {
+    console.log("Power: " + power );
   });
 ```
 
@@ -36,6 +38,7 @@ $ npm install ina219
 <dt><a href="#Ina219">Ina219</a></dt>
 <dd></dd>
 </dl>
+
 ## Typedefs
 <dl>
 <dt><a href="#onCompleteCallback">onCompleteCallback</a> : <code>function</code></dt>
@@ -46,6 +49,7 @@ $ npm install ina219
 </dd>
 </dl>
 <a name="Ina219"></a>
+
 ## Ina219
 **Kind**: global class  
 
@@ -56,6 +60,7 @@ $ npm install ina219
   * [.writeRegister(register, value, callback)](#Ina219+writeRegister)
   * [.readRegister(register, callback)](#Ina219+readRegister)
   * [.calibrate32V1A(callback)](#Ina219+calibrate32V1A)
+  * [.calibrate32V2A(callback)](#Ina219+calibrate32V2A)
   * [.log(s)](#Ina219+log)
   * [.getBusVoltage_raw(callback)](#Ina219+getBusVoltage_raw)
   * [.getShuntVoltage_raw(callback)](#Ina219+getShuntVoltage_raw)
@@ -63,6 +68,7 @@ $ npm install ina219
   * [.getBusVoltage_V(callback)](#Ina219+getBusVoltage_V)
   * [.getShuntVoltage_mV(callback)](#Ina219+getShuntVoltage_mV)
   * [.getCurrent_mA(callback)](#Ina219+getCurrent_mA)
+  * [.getPower_raw(callback)](#Ina219+getPower_raw)
 
 <a name="new_Ina219_new"></a>
 ### new Ina219()
@@ -115,8 +121,21 @@ Reads a 16 bit value over I2C
 <a name="Ina219+calibrate32V1A"></a>
 ### ina219.calibrate32V1A(callback)
 Configures to INA219 to be able to measure up to 32V and 1A of current.
- Each unit of current corresponds to 40uA, and each unit of power corresponds
- to 800mW. Counter overflow occurs at 1.3A.
+ Each unit of current corresponds to 40µA, and each unit of power corresponds
+ to 800µW. Counter overflow occurs at 1.3A.
+ Note: These calculations assume a 0.1 ohm resistor is present
+
+**Kind**: instance method of <code>[Ina219](#Ina219)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>[onCompleteCallback](#onCompleteCallback)</code> | Callback to be invoked when complete |
+
+<a name="Ina219+calibrate32V2A"></a>
+### ina219.calibrate32V2A(callback)
+Configures to INA219 to be able to measure up to 32V and 2A of current.
+ Each unit of current corresponds to 100µA, and each unit of power corresponds
+ to 2mW. Counter overflow occurs at 3.3A.
  Note: These calculations assume a 0.1 ohm resistor is present
 
 **Kind**: instance method of <code>[Ina219](#Ina219)</code>  
@@ -195,6 +214,17 @@ Gets the current value in mA, taking into account the config settings and curren
 | --- | --- | --- |
 | callback | <code>[onHaveValueCallback](#onHaveValueCallback)</code> | Callback to be invoked when complete. |
 
+<a name="Ina219+getPower_raw"></a>
+### ina219.getPower_raw(callback)
+Reads the raw power
+
+**Kind**: instance method of <code>[Ina219](#Ina219)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>[onHaveValueCallback](#onHaveValueCallback)</code> | Callback to be invoked when complete. |
+
+
 <a name="onCompleteCallback"></a>
 ## onCompleteCallback : <code>function</code>
 Callback for standard oncomplete
@@ -209,4 +239,3 @@ Callback for returning a single value
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>int</code> | value returned by async operation |
-
