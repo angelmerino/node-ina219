@@ -17,18 +17,20 @@ $ npm install ina219
   ina219.init();
   ina219.enableLogging(true);
 
-  ina219.calibrate32V1A(function () {});
+  ina219.calibrate32V1A(function () {
 
-  ina219.getBusVoltage_V(function (volts) {  
-    console.log("Voltage: " + volts);
-  });
+    ina219.getBusVoltage_V(function (volts) {  
+      console.log("Voltage: " + volts);
 
-  ina219.getCurrent_mA(function (current){
-    console.log("Current (mA): " + current );
-  });
+        ina219.getCurrent_mA(function (current){
+          console.log("Current (mA): " + current );
 
-  ina219.getPower_raw(function (power) {
-    console.log("Power: " + power );
+          ina219.getPower_mW(function (power) {
+            console.log("Power: " + power );
+          });
+
+      });
+    });
   });
 ```
 
@@ -69,6 +71,7 @@ $ npm install ina219
   * [.getShuntVoltage_mV(callback)](#Ina219+getShuntVoltage_mV)
   * [.getCurrent_mA(callback)](#Ina219+getCurrent_mA)
   * [.getPower_raw(callback)](#Ina219+getPower_raw)
+  * [.getPower_mW(callback)](#Ina219+getPower_mW)
 
 <a name="new_Ina219_new"></a>
 ### new Ina219()
@@ -216,7 +219,7 @@ Gets the current value in mA, taking into account the config settings and curren
 
 <a name="Ina219+getPower_raw"></a>
 ### ina219.getPower_raw(callback)
-Reads the raw power
+Reads the raw power values
 
 **Kind**: instance method of <code>[Ina219](#Ina219)</code>  
 
@@ -224,6 +227,15 @@ Reads the raw power
 | --- | --- | --- |
 | callback | <code>[onHaveValueCallback](#onHaveValueCallback)</code> | Callback to be invoked when complete. |
 
+<a name="Ina219+getPower_mW"></a>
+### ina219.getPower_mW(callback)
+Gets the power value in mW, taking into account the config settings and current LSB
+
+**Kind**: instance method of <code>[Ina219](#Ina219)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>[onHaveValueCallback](#onHaveValueCallback)</code> | Callback to be invoked when complete. |
 
 <a name="onCompleteCallback"></a>
 ## onCompleteCallback : <code>function</code>

@@ -381,7 +381,7 @@ Ina219.prototype.calibrate32V2A  = function (callback) {
 
 	// Set multipliers to convert raw current/power values
 	this.currentDivider_mA = 10;      // Current LSB = 40uA per bit (1000/40 = 25)
-  	this.powerDivider_mW = 2;         // Power LSB = 800µW per bit
+  this.powerDivider_mW = 2;         // Power LSB = 800µW per bit
 
 	var $this = this;
 	this.writeRegister(INA219_REG_CALIBRATION, this.calValue, function(err) {
@@ -524,6 +524,18 @@ Ina219.prototype.getPower_raw  = function (callback) {
         $this.log("getPower_raw RET: " + value);
         callback(value);
     });
+}
+
+/**
+  * Gets the power value in mW, taking into account the config settings and current LSB
+  * @param {onHaveValueCallback} callback - Callback to be invoked when complete.
+  */
+Ina219.prototype.getPower_mW  = function (callback) {
+
+	var $this = this;
+	this.getPower_raw(function(value) {
+		callback( value / $this.powerDivider_mW);
+	});
 }
 
 // export is a Singleton
