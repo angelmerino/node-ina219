@@ -44,3 +44,6 @@ Temporary Items
 *.log
 out/
 old/
+
+node_modules/
+package-lock.json

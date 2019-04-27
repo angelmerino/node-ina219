@@ -117,7 +117,7 @@ var INA219_REG_CALIBRATION                 	= 0x05
   * @param {string} address - Address you want to use. Defaults to INA219_ADDRESS
   * @param {integer} busNumber - the number of the I2C bus/adapter to open, 0 for /dev/i2c-0, 1 for /dev/i2c-1, (See github.com/fivdi/i2c-bus)
   */
-Ina219.prototype.init = function (address, busNumber) {
+Ina219.prototype.init = function (i2cCtrl, address, busNumber) {
 
 	// defaults
 	address = typeof address !== 'undefined' ? address : INA219_ADDRESS;
@@ -128,8 +128,8 @@ Ina219.prototype.init = function (address, busNumber) {
 	this.powerDivider_mW = 0;
 	this.calValue = 0;
 	this.address = address;
-
-	this.wire = i2c.openSync(busNumber);
+ 	console.log('typeof i2cCtrl !== undefined ->' + (typeof i2cCtrl !== 'undefined'))
+	this.wire = typeof i2cCtrl !== 'undefined' ? i2cCtrl : i2c.openSync(busNumber);
 }
 
 
